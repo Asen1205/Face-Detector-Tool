@@ -3,12 +3,29 @@ import io
 
 import cv2
 import matplotlib
+from matplotlib import font_manager
 import numpy as np
 import streamlit as st
 from PIL import Image, ImageOps
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
+
+_CJK_FONT_CANDIDATES = (
+    "Microsoft JhengHei",
+    "Microsoft YaHei",
+    "Noto Sans CJK TC",
+    "Noto Sans CJK SC",
+    "Noto Sans CJK JP",
+    "PingFang TC",
+    "WenQuanYi Zen Hei",
+    "SimHei",
+)
+_available_fonts = {font.name for font in font_manager.fontManager.ttflist}
+_cjk_font = next((name for name in _CJK_FONT_CANDIDATES if name in _available_fonts), None)
+if _cjk_font:
+    plt.rcParams["font.sans-serif"] = [_cjk_font, "DejaVu Sans"]
+plt.rcParams["axes.unicode_minus"] = False
 
 st.set_page_config(page_title="影像處理與人臉分析", layout="wide")
 
